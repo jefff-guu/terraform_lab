@@ -24,7 +24,7 @@ terraform {
   backend "s3" {
     # Replace this with your bucket name!
     bucket         = "bucket-terraform-lab"
-    key            = "dev/database/mysql/terraform.tfstate"
+    key            = "prod/database/mysql/terraform.tfstate"
     region         = "us-east-2"
 
     # Replace this with your DynamoDB table name!

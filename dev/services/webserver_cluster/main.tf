@@ -4,23 +4,37 @@ provider "aws" {
 
 
 module "webserver_cluster" {
-  source = "../../../modules/services/webserver-cluster"
+  source = "../../../modules/services/webserver_cluster"
   
-  cluster_name           = "webservers-cluster-${local.env}"
+  cluster_name           = "webservers-cluster-${var.env}"
   db_remote_state_bucket = "bucket-terraform-lab"
-  db_remote_state_key    = "${local.env}/database/mysql/terraform.tfstate"
+  db_remote_state_key    = "${var.env}/database/mysql/terraform.tfstate"
 
   instance_type = "t2.micro"
   min_size      = 2
   max_size      = 2
 }
 
-locals {
-  env = "dev"
-  http_port    = 80
-  any_port     = 0
-  any_protocol = "-1"
-  tcp_protocol = "tcp"
-  all_ips      = ["0.0.0.0/0"]
+resource "aws_security_group_rule" "allow_testing_inbound" {
+  type              = "ingress"
+  security_group_id = module.webserver_cluster.alb_security_group_id
+
+  from_port   = 12345
+  to_port     = 12345
+  protocol    = "tcp"
+  cidr_blocks = ["0.0.0.0/0"]
+}
+
+terraform {
+  backend "s3" {
+    # Replace this with your bucket name!
+    bucket         = "bucket-terraform-lab"
+    key            = "dev/services/webserver_cluster/terraform.tfstate"
+    region         = "us-east-2"
+
+    # Replace this with your DynamoDB table name!
+    dynamodb_table = "dynamodb_terraform_lab_locks"
+    encrypt        = true
+  }
 }
 

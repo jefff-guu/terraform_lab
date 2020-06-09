@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 resource "aws_s3_bucket" "terraform_state" {
-  bucket = var.bucket_terraform_lab_03
+  bucket = var.bucket_terraform_lab
 
   # Prevent accidental deletion of this S3 bucket
   lifecycle {
@@ -37,15 +37,15 @@ resource "aws_dynamodb_table" "terraform_locks" {
   }
 }
 
-terraform {
-  backend "s3" {
-    # Replace this with your bucket name!
-    bucket         = "bucket-terraform-lab-03"
-    key            = "global/s3/terraform.tfstate"
-    region         = "us-east-2"
-
-    # Replace this with your DynamoDB table name!
-    dynamodb_table = "dynamodb_terraform_lab_locks"
-    encrypt        = true
-  }
-}
+#terraform {
+#  backend "s3" {
+#    # Replace this with your bucket name!
+#    bucket         = "bucket-terraform-lab"
+#    key            = "global/s3/terraform.tfstate"
+#    region         = "us-east-2"
+#
+#    # Replace this with your DynamoDB table name!
+#    dynamodb_table = "dynamodb_terraform_lab_locks"
+#    encrypt        = true
+#  }
+#}

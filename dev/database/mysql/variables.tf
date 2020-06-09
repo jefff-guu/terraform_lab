@@ -4,10 +4,16 @@ variable "db_instance" {
   default     = "db.t2.micro"
 }
 
-variable "bucket_terraform_lab_03" {
+variable "db_name" {
+  description = "The name to use for the database"
+  type        = string
+  default     = "terraform_lab_database_dev"
+}
+
+variable "bucket_terraform_lab" {
   description = "The name of the S3 bucket. Must be globally unique."
   type        = string
-  default     = "bucket-terraform-lab-03"
+  default     = "bucket-terraform"
 }
 
 variable "dynamodb_terraform_lab_locks" {

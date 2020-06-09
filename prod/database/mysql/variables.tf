@@ -1,3 +1,15 @@
+variable "db_instance" {
+  description = "instance class for mysql db"
+  type        = string
+  default     = "db.t2.micro"
+}
+
+variable "db_name" {
+  description = "The name to use for the database"
+  type        = string
+  default     = "terraform_lab_database_prod"
+}
+
 variable "bucket_terraform_lab" {
   description = "The name of the S3 bucket. Must be globally unique."
   type        = string
